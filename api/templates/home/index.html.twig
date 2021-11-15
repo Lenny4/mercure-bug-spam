@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+    <button onclick="sendEvent()">Send event</button>
+    <script>
+        var evtSource = new EventSource("/.well-known/mercure?topic=/api/command");
+
+        evtSource.onmessage = function (e) {
+            console.log(e);
+        }
+
+        function closeConnection() {
+            console.log('Connection close!')
+            evtSource.close();
+        }
+
+        function sendEvent() {
+            fetch('/send-event')
+        }
+    </script>
+{% endblock %}
